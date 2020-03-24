@@ -12,6 +12,7 @@ class ControllerExtensionPaymentVoguepay extends Controller {
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		$amount = $order_info['total'];
 		
+		$this->session->data['shipping_method']['code'] = (!empty($this->session->data['shipping_method']['code'])) ? $this->session->data['shipping_method']['code'] : ""; 
 		if($this->session->data['shipping_method']['code'] == 'flat.flat'){
 			$memo = $this->session->data['shipping_method']['title'].' : '.$this->session->data['shipping_method']['text'];
 		}else{ $memo = ''; }
@@ -39,7 +40,9 @@ class ControllerExtensionPaymentVoguepay extends Controller {
 				); 
 		}
 				
-		$voguepay_args_array = array();
+        $voguepay_args_array = array();
+        $this->session->data['shipping_method']['title'] = (!empty($this->session->data['shipping_method']['title'])) ? $this->session->data['shipping_method']['title'] : ""; 
+
 		$voguepay_args = array(
 			'v_merchant_id'   => $voguepay_merchant_id,
 			'merchant_ref'   => $order_id,
